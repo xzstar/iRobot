@@ -156,13 +156,13 @@ redispublish.subscribe(**{'deal':Handler.handle_deal})
 redispublish.subscribe(**{'timebarinfo':Handler.handle_timebarinfo})
 redispublish.subscribe(**{'heartbeat':Handler.handle_heartbeat})
 
-thread_handle_deal = redispublish.run_in_thread(sleep_time=10)
+thread_handle_deal = redispublish.run_in_thread(sleep_time=5)
 thread_heartbeat = HeartBeatWorkerThread(sleep_time = 30)
 
 thread_heartbeat.start()
 while True:
-    input = input("command:")  
-    if input == 'stop':  
+    info = input("command:")  
+    if info == 'stop':  
         print ('停止')  
         thread_handle_deal.stop()
         wxClient.stop()

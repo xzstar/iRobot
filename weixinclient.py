@@ -11,7 +11,12 @@ class WeiXinClient:
 
     def start(self):
         self.bot = Bot(cache_path=True)
-        self.master = self.bot.friends().search('谢哲')[0]
+        self.master = self.bot.groups().search('机器人')[0]
+
+        #@self.bot.register(self.master)
+        #def handle_msg(message):
+        #    pass
+
 
     def stop(self):
         if self.bot != None:
@@ -20,12 +25,12 @@ class WeiXinClient:
     def sendDeal(self,deal):
         print("send Deal")
         if self.master != None:
-            self.master.send('deal %s %s %s %s'%(deal.user,deal.time,deal.instrument,deal.price))
+            self.master.send('成交 %s %s %s %s %s'%(deal.user,deal.time,deal.instrument,deal.price,deal.holders))
             
     def sendTimeBarInfo(self,timebarinfo):
         print("send timebarinfo")
         if self.master != None:
-            self.master.send('%s--%s:%s %s'%(timebarinfo.user,timebarinfo.time,timebarinfo.instrument,timebarinfo.price))
+            self.master.send('均值 %s--%s:%s %s'%(timebarinfo.user,timebarinfo.time,timebarinfo.instrument,timebarinfo.price))
 
     def sendHeartBeat(self,heartbeat):
         print("send heartbeat")
@@ -39,3 +44,5 @@ class WeiXinClient:
             msg = "Error"
         if self.master != None:
             self.master.send('%s-- last heartbeat %s %s'%(heartbeat.user,heartbeat.timestamp,msg))
+
+    
