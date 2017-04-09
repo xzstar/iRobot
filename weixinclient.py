@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import datetime
 from wxpy import *
 
 
@@ -7,7 +8,6 @@ class WeiXinClient:
     def __init__(self, tag, cache):
         self.bot = None
         self.master = None
-        self.heartbeat_dict = {}
         self.tag = tag
         self.cache = cache
 
@@ -38,8 +38,7 @@ class WeiXinClient:
                              % (timebarinfo.user, timebarinfo.time, timebarinfo.instrument, timebarinfo.price))
 
     def sendHeartBeat(self, heartbeat):
-        print("send heartbeat")
-        self.heartbeat_dict[heartbeat.user] = heartbeat.timestamp
+        pass
 
     def sendWarnHeartBeat(self, heartbeat, OK):
         print("send warn heartbeat")
@@ -49,4 +48,4 @@ class WeiXinClient:
             msg = "Error"
         if self.master != None:
             self.master.send('%s-- last heartbeat %s %s'
-                             % (heartbeat.user, heartbeat.timestamp, msg))
+                             % (heartbeat.user, datetime.datetime.fromtimestamp(heartbeat.timestamp), msg))

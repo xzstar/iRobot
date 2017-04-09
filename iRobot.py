@@ -131,8 +131,8 @@ class HeartBeatWorkerThread(threading.Thread):
         while self._triggerstop is False:
             current = int(time.time())
             print("WorkThread:%s" % datetime.datetime.fromtimestamp(current))
-            for key in wxClient.heartbeat_dict:
-                timeValue = wxClient.heartbeat_dict[key]
+            for key in timeBarInfoCache.heartbeatcache:
+                timeValue = timeBarInfoCache.heartbeatcache[key].timestamp
                 diff = current - timeValue
 
                 if key in self._hasWarn:
