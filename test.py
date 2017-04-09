@@ -1,10 +1,37 @@
 #!/Library/Frameworks/Python.framework/Versions/3.5/bin/python3
-import redis
+'''
+Test code for iRobot
+'''
 import time
-channels = ['deal','timebarinfo','heartbeat']
+import redis
+CHANNELS = ('deal', 'timebarinfo', 'heartbeat')
 
-redisconn = redis.StrictRedis()
-redisconn.publish(channels[0],'{"user":"xiezhe","instrument":"rb1710","direction":"1","holders":"2","price":"1000","time":"2017-1-1"}')
-redisconn.publish(channels[1],'{"user":"xiezhe","instrument":"rb1710","price":"1000","time":"2017-1-1"}')
-timestamp = int(time.time())
-redisconn.publish(channels[2],'{"user":"xiezhe","timestamp":timestamp}')
+REDIS_CONN = redis.StrictRedis()
+
+REDIS_CONN.publish(CHANNELS[0],
+                   '{"user":"xiezhe",\
+        "instrument":"rb1710",\
+        "direction":"1",\
+        "holders":"2",\
+        "price":"1000",\
+        "time":"2017-1-1"}')
+REDIS_CONN.publish(CHANNELS[1],
+                   '{"user":"xiezhe",\
+    "instrument":"rb1710",\
+    "price":"1000",\
+    "time":"2017-1-1"}')
+TS = int(time.time())
+TS_STRING = '{"user":"xiezhe","timestamp":%d}' % TS
+REDIS_CONN.publish(CHANNELS[2], TS_STRING)
+
+REDIS_CONN.publish(CHANNELS[1],
+                   '{"user":"xiezhe",\
+    "instrument":"rb1710",\
+    "price":"1002",\
+    "time":"2017-1-1"}')
+
+REDIS_CONN.publish(CHANNELS[1],
+                   '{"user":"xiezhe",\
+    "instrument":"rm1709",\
+    "price":"1002",\
+    "time":"2017-1-1"}')
